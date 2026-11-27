@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MR THINK AI</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;background:#080d20;color:#f1f5ff;
+font-family:Arial,sans-serif;
+}
+header{
+padding:18px;background:#101936;
+border-bottom:1px solid #253456;
+display:flex;align-items:center;justify-content:space-between;
+}
+.logo{font-size:22px;font-weight:bold;color:#50d5ff}
+.logo span{color:white}
+main{max-width:850px;margin:auto;padding:20px}
+.tabs{
+display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;
+}
+button{
+background:#152345;color:white;border:1px solid #31466c;
+border-radius:10px;padding:12px;cursor:pointer;
+}
+button.active{background:#087dff;border-color:#087dff}
+.hero{text-align:center;margin:35px 0}
+.hero h1{font-size:30px}
+.hero p{color:#9caccb}
+.panel{
+background:#101a35;border:1px solid #26385f;
+border-radius:16px;padding:16px;margin-bottom:15px;
+}
+textarea{
+width:100%;min-height:110px;background:#081124;
+color:white;border:1px solid #34486d;
+padding:14px;border-radius:12px;font-size:16px;
+resize:vertical;
+}
+input[type=file]{
+width:100%;padding:15px;background:#081124;
+border-radius:10px;color:white;
+}
+.send{
+background:#087dff;width:100%;padding:15px;
+font-size:16px;font-weight:bold;margin-top:12px;
+}
+#answer{
+white-space:pre-wrap;line-height:1.7;
+overflow-wrap:anywhere;
+}
+.hidden{display:none}
+.small{font-size:13px;color:#93a5c7}
+footer{text-align:center;color:#657696;padding:30px}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">MR <span>THINK</span></div>
+<div class="small">Think Smarter. Live Better.</div>
+</header>
+
+<main>
+
+<div class="hero">
+<h1>आज आप किस समस्या का समाधान चाहते हैं?</h1>
+<p>अपनी बात सरल शब्दों में बताइए।</p>
+</div>
+
+<div class="tabs">
+<button class="active" onclick="setMode('chat',this)">AI Chat</button>
+<button onclick="setMode('research',this)">Deep Research</button>
+<button onclick="setMode('video',this)">Video Studio</button>
+</div>
+
+<section id="chatPanel" class="panel">
+<textarea id="question" placeholder="अपना सवाल लिखें..."></textarea>
+<button class="send" onclick="submitQuestion()">MR THINK से पूछें</button>
+</section>
+
+<section id="researchPanel" class="panel hidden">
+<h3>Deep Research</h3>
+<textarea id="researchQuestion" placeholder="किस विषय पर गहरी रिसर्च करनी है?"></textarea>
+<button class="send" onclick="submitResearch()">Research शुरू करें</button>
+</section>
+
+<section id="videoPanel" class="panel hidden">
+<h3>AI Video Studio</h3>
+<p>अपना वीडियो अपलोड करें।</p>
+<input type="file" id="videoFile" accept="video/*">
+<br><br>
+<label>Editing Style:</label>
+<select id="style" style="width:100%;padding:12px;background:#081124;color:white">
+<option>Cinematic</option>
+<option>Documentary</option>
+<option>YouTube</option>
+<option>Reels / Shorts</option>
+<option>News</option>
+<option>Vlog</option>
+<option>Motivational</option>
+</select>
+<button class="send" onclick="videoSubmit()">Video Editing शुरू करें</button>
+<p class="small">इस शुरुआती संस्करण में वीडियो अपलोड चयन उपलब्ध है। वास्तविक AI वीडियो प्रोसेसिंग के लिए Backend और वीडियो इंजन जोड़ना बाकी है।</p>
+</section>
+
+<section class="panel">
+<h3>MR THINK Response</h3>
+<div id="answer">आपका जवाब यहाँ दिखाई देगा।</div>
+</section>
+
+</main>
+
+<footer>MR THINK AI · Think Smarter. Live Better.</footer>
+
+<script>
+let mode='chat';
+
+function setMode(m,b){
+mode=m;
+document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+document.getElementById('chatPanel').classList.toggle('hidden',m!=='chat');
+document.getElementById('researchPanel').classList.toggle('hidden',m!=='research');
+document.getElementById('videoPanel').classList.toggle('hidden',m!=='video');
+document.getElementById('answer').textContent='आपका जवाब यहाँ दिखाई देगा।';
+}
+
+function submitQuestion(){
+let q=document.getElementById('question').value.trim();
+if(!q){alert('पहले अपना सवाल लिखें।');return;}
+document.getElementById('answer').textContent=
+'आपका सवाल: '+q+'\n\nAI सेवा अभी कनेक्ट नहीं हुई है। Backend और AI API जोड़ने के बाद यहाँ वास्तविक जवाब आएगा।';
+}
+
+function submitResearch(){
+let q=document.getElementById('researchQuestion').value.trim();
+if(!q){alert('रिसर्च का विषय लिखें।');return;}
+document.getElementById('answer').textContent=
+'Research Topic: '+q+'\n\nDeep Research Engine अभी कनेक्ट नहीं है। इसे आगे विकसित किया जाएगा।';
+}
+
+function videoSubmit(){
+let f=document.getElementById('videoFile').files[0];
+if(!f){alert('पहले वीडियो अपलोड करें।');return;}
+document.getElementById('answer').textContent=
+'Video: '+f.name+'\nEditing Style: '+document.getElementById('style').value+
+'\n\nवीडियो चुना गया है। वास्तविक AI Editing Engine अभी कनेक्ट नहीं है।';
+}
+</script>
+
+</body>
+  </html>
